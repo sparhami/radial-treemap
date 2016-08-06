@@ -1,0 +1,255 @@
+<!--
+@license
+Copyright 2016 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<html>
+  <head>
+    <link rel="import" href="radial-treemap.html">
+    <link rel="import" href="radial-treeitem.html">
+
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .maps {
+        width: 100%;
+      }
+
+      radial-treemap {
+        width: 250px;
+        height: 250px;
+        font-size: 16px;
+      }
+
+      .ring radial-treeitem:focus::after {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        
+        margin-top: -0.65em;
+        vertical-align: middle;
+        text-align: center;
+
+        content: attr(title);
+      }
+
+      .dynamic radial-treeitem {
+        --arc-transition-duration: 500ms;
+      }
+
+      radial-treeitem {
+        transition: 250ms opacity;
+      }
+
+      .red {
+        stroke: #db4437;
+      }
+
+      .r1 {
+        stroke: #ef5350;
+      }
+      
+      .r11 {
+        stroke: #e57373;
+      }
+
+      .r12 { 
+        stroke: #ef9a9a;
+      }
+
+      .r2 {
+        stroke: #e53935;
+      }
+
+      .r3 {
+        stroke: #c62828;
+      }
+
+      .blue {
+        stroke: #4285f4;
+      }
+
+      .green {
+        stroke: #0f9d58;
+      }
+
+      .yellow {
+        stroke: #f4b400;
+      }
+
+      label {
+        display: block;
+      }
+
+      label span {
+        width: 50px;
+        display: inline-block;
+      }
+
+      radial-treeitem > radial-treeitem {
+        display: none;
+      }
+
+      radial-treeitem[aria-expanded="true"] > radial-treeitem {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+      function setValue(event) {
+        const el = event.target;
+        const items = document.querySelectorAll('.' + el.getAttribute('name'));
+        [].forEach.call(items, item => item.setAttribute('value', el.value));
+      }
+    </script>
+
+    <div>
+      <label>
+        <span>red</span>
+        <input
+            type="number"
+            value="200"
+            min="0"
+            step="10"
+            name="red"
+            oninput="setValue(event)">
+      </label>
+      <label>
+        <span>blue</span>
+        <input
+            type="number"
+            value="200"
+            min="0"
+            step="10"
+            name="blue"
+            oninput="setValue(event)">
+      </label>
+      <label>
+        <span>green</span>
+        <input
+            type="number"
+            value="100"
+            min="0"
+            step="10"
+            name="green"
+            oninput="setValue(event)">
+      </label>
+      <label>
+        <span>yellow</span>
+        <input
+            type="number"
+            value="100"
+            min="0"
+            step="10"
+            name="yellow"
+            oninput="setValue(event)">
+      </label>
+    </div>
+    <div class="maps">
+      <radial-treemap class="ring">
+        <radial-treeitem
+            class="blue"
+            value="200"
+            title="blue">
+        </radial-treeitem>
+        <radial-treeitem
+            class="red"
+            value="200"
+            title="red"
+            aria-expanded="true">
+          <radial-treeitem
+              class="r1"
+              value="100"
+              title="r1"
+              aria-expanded="true">
+            <radial-treeitem
+                class="r11"
+                value="100"
+                title="r11">
+            </radial-treeitem>
+            <radial-treeitem
+                class="r12"
+                value="100"
+                title="r12">
+            </radial-treeitem>
+          </radial-treeitem>
+          <radial-treeitem
+              class="r2"
+              value="200"
+              title="r2">
+          </radial-treeitem>
+          <radial-treeitem
+              class="r3"
+              value="300"
+              title="r3">
+          </radial-treeitem>
+        </radial-treeitem>
+        <radial-treeitem
+            class="green"
+            value="100"
+            title="green">
+        </radial-treeitem>
+        <radial-treeitem
+            class="yellow"
+            value="100"
+            title="yellow">
+        </radial-treeitem>
+      </radial-treemap>
+
+      <radial-treemap class="ring dynamic">
+        <radial-treeitem
+            id="dynamicBlue"
+            class="blue"
+            value="0"
+            title="blue">
+        </radial-treeitem>
+        <radial-treeitem
+            id="dynamicGreen"
+            class="green"
+            value="0"
+            title="green">
+        </radial-treeitem>
+        <radial-treeitem
+            id="dynamicYellow"
+            class="yellow"
+            value="0"
+            title="yellow">
+        </radial-treeitem>
+        <radial-treeitem
+            id="dynamicRed"
+            class="red"
+            value="0"
+            title="red">
+        </radial-treeitem>
+      </radial-treemap>
+    </div>
+
+    <script>
+      setTimeout(() => {
+        dynamicRed.setAttribute('value', 200);
+        dynamicBlue.setAttribute('value', 200);
+        dynamicGreen.setAttribute('value', 100);
+        dynamicYellow.setAttribute('value', 100);
+      }, 0);
+    </script>
+  </body>
+</html>

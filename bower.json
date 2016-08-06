@@ -1,0 +1,17 @@
+{
+  "name": "radial-treemap",
+  "version": "0.0.0",
+  "authors": [
+    "sparhami <sepandparhami@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+  ],
+  "dependencies": {
+    "x-treeview": "sparhami/x-treeview"
+  }
+}
