@@ -1,0 +1,13 @@
+{
+  "name": "x-treeview",
+  "homepage": "https://github.com/sparhami/x-treeview",
+  "_release": "589f5a5ced",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "589f5a5ced9e14c34d68b883bf7ca7d01c7827be"
+  },
+  "_source": "git://github.com/sparhami/x-treeview.git",
+  "_target": "*",
+  "_originalSource": "sparhami/x-treeview"
+}
