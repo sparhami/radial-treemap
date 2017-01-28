@@ -25,9 +25,13 @@ limitations under the License.
   template.innerHTML = `
     <style>
       :host {
-        display: inline-block;
+        display: none;
         position: relative;  
         outline: none;
+      }
+
+      :host([ready]) {
+        display: inline-block;
       }
 
       :host([focus-within]) ::content > radial-treeitem {
@@ -38,24 +42,30 @@ limitations under the License.
     <content></content>
   `;
 
-  return document.registerElement('radial-treemap', class extends HTMLElement {
-    createdCallback() {
+  return customElements.define('radial-treemap', class extends HTMLElement {
+    constructor() {
+      super();
+
       const sr = this.createShadowRoot();
       sr.appendChild(template.content.cloneNode(true));
 
-      this.setAttribute('role', 'tree');
-
       this.offset = 0;
       this.percentage = 1;
-      this.tabIndex = 0;
       this.level = -1;
 
       attachTreeSelection(this, {
         wrap: true,
         trap: true 
       });
-      attachRadialContainer(this);
       attachFocusWithin(this);
+      attachRadialContainer(this);
+    }
+
+    connectedCallback() {
+      this.tabIndex = 0;
+      this.setAttribute('role', 'tree');
+
+      setTimeout(() => this.setAttribute('ready', ''));
     }
   });
 })();

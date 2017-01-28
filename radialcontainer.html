@@ -17,25 +17,36 @@ limitations under the License.
 
 <script>
 const attachRadialContainer = function(el) {
-  el.addEventListener('value-changed', handleChange);
-  
-  update();
+  let dirty = false;
 
-  function handleChange(e) {
-    if (e.target === el) {
-      return;
-    }
-
-    e.stopPropagation();
-    update();
-  }
+  new MutationObserver(update).observe(el, {
+    childList: true,
+    attributes: true,
+    subtree: true
+  });
 
   function getValue(child) {
     return Number(child.getAttribute('value'));
   }
 
   function update() {
-    const children = [].slice.call(el.children);
+    if (dirty) {
+      return;
+    }
+
+    dirty = true;
+    requestAnimationFrame(() => {
+      dirty = false;
+      update_(el);
+    });
+  }
+
+  function update_(el) {
+    if (el.update) {
+      el.update();
+    }
+
+    const children = Array.from(el.children);
     const sum = children
       .map(getValue)
       .reduce((p, c) => p + c, 0);
@@ -46,15 +57,11 @@ const attachRadialContainer = function(el) {
 
       child.level = el.level + 1;
       child.percentage = percentage;
-      child.offset = runningSum; 
-      child.update && child.update();
+      child.offset = runningSum;
+      update_(child);
 
       return runningSum + percentage;
     }, el.offset);
   }
-
-  return {
-    update: update
-  };
 };
 </script>
