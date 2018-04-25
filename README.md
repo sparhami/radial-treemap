@@ -1,6 +1,9 @@
 `<radial-treemap>` A component that renders a radial tree map that can be
 navigated via the keyboard or mouse. 
 
+[Demo](https://sparhami.github.io/radial-treemap/)
+
+
 Example:
 
     <radial-treemap>
