@@ -1,4 +1,4 @@
-<!--
+/*
 @license
 Copyright 2016 Google Inc. All Rights Reserved.
 
@@ -13,10 +13,9 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
--->
+*/
 
-<script>
-const attachRadialContainer = function(el) {
+function attachRadialContainer(el) {
   let dirty = false;
 
   new MutationObserver(update).observe(el, {
@@ -63,5 +62,8 @@ const attachRadialContainer = function(el) {
       return runningSum + percentage;
     }, el.offset);
   }
-};
-</script>
+}
+
+export {
+  attachRadialContainer,
+}
