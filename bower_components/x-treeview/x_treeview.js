@@ -1,4 +1,4 @@
-<!--
+/*
 @license
 Copyright 2015 Google Inc.
 
@@ -13,39 +13,39 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
--->
+*/
 
-<script src="treeselection.js"></script>
+import {attachTreeSelection} from './treeselection.js';
 
-<script>
-const XTreeView = (function() {
-  const tmpl = document.createElement('template');
-  tmpl.innerHTML = `
-    <style>
-      :host {
-        display: inline-block;
-        position: relative;
-        -webkit-user-select: none;
-      }
-    </style>
+const tmpl = document.createElement('template');
+tmpl.innerHTML = `
+  <style>
+    :host {
+      display: inline-block;
+      position: relative;
+      -webkit-user-select: none;
+    }
+  </style>
 
-    <content></content>
-  `;
+  <slot></slot>
+`;
 
-  const p = Object.create(HTMLElement.prototype);
+class XTreeView extends HTMLElement {
+  constructor() {
+    super();
 
-  p.createdCallback = function() {
-    const sr = this.createShadowRoot();
+    const sr = this.attachShadow({ mode: 'closed' });
     sr.appendChild(tmpl.content.cloneNode(true));
 
+    attachTreeSelection(this);
+  }
+
+  connectedCallback() {
     this.tabIndex = 0;
     this.setAttribute('role', 'tree');
+  }
+}
 
-    attachTreeSelection(this);
-  };
+customElements.define('x-treeview', XTreeView);
 
-  return document.registerElement('x-treeview', {
-    prototype: p
-  });
-})();
-</script>
+export default XTreeView;
